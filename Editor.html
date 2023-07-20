@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
+  <style>
+    /* Custom styles for the editor container */
+    .editor-container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      background-color: #282c34; /* Dark background color */
+    }
+
+    /* Styling the CodeMirror editor */
+    .CodeMirror {
+      height: 300px;
+      font-size: 16px;
+      background: repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(255, 255, 255, 0.05) 15px, rgba(255, 255, 255, 0.05) 30px); /* Striped background */
+      color: #f8f8f8; /* Text color */
+    }
+
+    /* Change the background color of the line bar to dark */
+    .CodeMirror .CodeMirror-linenumber {
+      background-color: #282a36;
+      color: #ffffff; /* Change the color of the line numbers to white */
+    }
+
+    /* Change the color of the cursor to white */
+    .CodeMirror-cursor {
+      border-left: 1px solid #ffffff;
+    }
+
+    /* Custom styles for the execute button */
+    #executeButton {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/sql/sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/dracula.min.js"></script> <!-- Dark theme -->
+</head>
+<body>
+  <div class="editor-container">
+    <textarea id="codeEditor">
+SELECT * FROM your_table_name;
+    </textarea>
+
+    <button id="executeButton" onclick="executeCode()">Execute</button>
+  </div>
+
+  <script>
+    // Initialize CodeMirror on the 'codeEditor' textarea
+    var editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+      mode: 'text/x-mysql', // Specify the MySQL syntax highlighting
+      theme: 'dracula', // Use the dark theme
+      lineNumbers: true // Show line numbers
+    });
+
+    function executeCode() {
+      // Get the code from the editor and perform your desired action here
+      var code = editor.getValue();
+      // Replace this part with your actual code execution logic or any other action you want to perform.
+      alert("Executing code:\n" + code);
+    }
+  </script>
+</body>
+</html>
