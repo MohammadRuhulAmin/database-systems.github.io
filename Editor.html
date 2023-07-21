@@ -42,17 +42,32 @@
       cursor: pointer;
     }
   </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.all.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/sql/sql.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/dracula.min.js"></script> <!-- Dark theme -->
+
 </head>
 <body>
   <div class="editor-container">
     <textarea id="codeEditor">
-SELECT * FROM your_table_name;
+  WITH cte AS(
+    SELECT u.user_id,u.join_date,o.order_date
+    FROM Users u
+    LEFT JOIN Orders o
+    ON u.user_id = o.buyer_id
+
+    )SELECT cte.user_id AS 'buyer_id',
+    cte.join_date, SUM(
+      CASE
+        WHEN YEAR(cte.order_date) = 2019 THEN 1 ELSE 0
+        END 
+    )AS 'orders_in_2019'
+    FROM cte 
+    GROUP BY cte.user_id
     </textarea>
 
-    <button id="executeButton" onclick="executeCode()">Execute</button>
+    <button id="executeButton" onclick="executeCode()">copy</button>
   </div>
 
   <script>
@@ -64,10 +79,21 @@ SELECT * FROM your_table_name;
     });
 
     function executeCode() {
-      // Get the code from the editor and perform your desired action here
       var code = editor.getValue();
-      // Replace this part with your actual code execution logic or any other action you want to perform.
-      alert("Executing code:\n" + code);
+      var tempTextarea = document.createElement('textarea');
+      tempTextarea.value = code;
+      document.body.appendChild(tempTextarea);
+      tempTextarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextarea);
+      setTimeout(function () {
+        Swal.fire({
+          icon: 'success',
+          title: 'Code has been copied to the clipboard!',
+          text: code,
+        });
+      }, 1000); // 3000 milliseconds = 3 seconds
+
     }
   </script>
 </body>
